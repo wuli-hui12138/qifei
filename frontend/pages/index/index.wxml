@@ -1,0 +1,55 @@
+<view class="container">
+  <view class="header">
+    <view class="date-text">{{dateStr}} {{weekStr}}</view>
+    <view class="greeting-title">{{greetingTitle}} 机长 ☀️</view>
+  </view>
+
+  <view class="main-card">
+    <view class="card-icon">
+      <icon type="success_no_circle" color="#1296DB" size="30"/>
+    </view>
+    <view class="card-content">
+      <view class="card-title">今日已起飞{{todayCount}}次 ✨</view>
+      <view class="card-subtitle">保持好心情~</view>
+    </view>
+  </view>
+
+  <view class="content-row">
+    <!-- Left Column: Redesigned Wider Vertical Slider -->
+    <view class="left-col">
+      <view class="slider-wrapper" id="v-slider" catchtouchstart="handleTouchStart" catchtouchmove="handleTouchMove" catchtouchend="handleTouchEnd" catchtouchcancel="handleTouchEnd">
+        <view class="slider-track">
+          <!-- Fluid Background Fill -->
+          <view class="slider-fill" style="height: {{sliderValue}}%; background-color: {{sliderColor}}; opacity: 0.8;"></view>
+          
+          <!-- Animated Hint -->
+          <view class="slider-hint-container" wx:if="{{sliderValue < 5}}">
+            <view class="slider-hint-icon"></view>
+            <view class="slider-hint-text">上滑确认状态</view>
+          </view>
+          
+          <!-- Smaller Drag Thumb -->
+          <!-- We color the border of the thumb dynamically based on progress -->
+          <view class="slider-thumb" style="bottom: {{sliderValue}}%; border-color: {{sliderValue > 0 ? sliderColor : '#ccc'}};"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Right Column: Stats and Tips mapped to 48% Space -->
+    <view class="right-col">
+      <view class="section-title">本周概览</view>
+      <view class="stat-box">
+        <view class="stat-label">⭐ 次数</view>
+        <view class="stat-value"><text class="number">{{weekCount}}</text> 次</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-label">💗 状态</view>
+        <view class="stat-value text-bold" style="color: {{currentStatusColor}}">{{currentStatus}}</view>
+      </view>
+      <view class="tip-card">
+        <view class="tip-title">💡 健康小贴士</view>
+        <view class="tip-content">{{healthTip}}</view>
+      </view>
+    </view>
+  </view>
+</view>

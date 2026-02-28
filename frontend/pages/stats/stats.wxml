@@ -1,0 +1,24 @@
+<view class="container">
+  <!-- Tabs -->
+  <view class="tabs">
+    <view class="tab {{activeTab === 'week' ? 'active' : ''}}" bindtap="switchTab" data-tab="week">本周</view>
+    <view class="tab {{activeTab === 'month' ? 'active' : ''}}" bindtap="switchTab" data-tab="month">本月</view>
+    <view class="tab {{activeTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all">全部</view>
+  </view>
+
+  <view class="stat-header">
+    <view class="stat-big-num">{{totalCount}}</view>
+    <view class="stat-label">{{activeTab === 'week' ? '本周记录' : (activeTab === 'month' ? '本月记录' : '全部记录')}}</view>
+  </view>
+
+  <!-- Simple CSS Bar Chart -->
+  <view class="chart-container">
+    <view class="bar-group" wx:for="{{chartData}}" wx:key="label">
+      <view class="bar-val">{{item.value}}</view>
+      <view class="bar-track">
+        <view class="bar-fill {{item.value > 0 ? 'has-val' : ''}}" style="height: {{item.percent}}%;"></view>
+      </view>
+      <view class="bar-label {{item.isToday ? 'is-today' : ''}}">{{item.label}}</view>
+    </view>
+  </view>
+</view>

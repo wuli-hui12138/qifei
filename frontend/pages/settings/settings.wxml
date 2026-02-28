@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="section-title">个人信息</view>
+  <view class="card-group">
+    <view class="setting-item">
+      <view class="item-header">
+        <text class="item-icon">👦🏻</text> 年龄：{{age}} 岁
+      </view>
+      <slider value="{{age}}" min="12" max="100" show-value="true" activeColor="#6ab0fe" bindchange="onAgeChange"/>
+    </view>
+  </view>
+
+  <view class="section-title">安全与隐私</view>
+  <view class="card-group">
+    <view class="setting-item row">
+      <view class="item-left">
+        <view class="item-title"><text class="item-icon">🔒</text> 应用锁</view>
+        <view class="item-desc">保护你的隐私记录</view>
+      </view>
+      <switch checked="{{appLock}}" color="#6ab0fe" bindchange="onAppLockChange"/>
+    </view>
+  </view>
+
+  <view class="section-title">数据管理</view>
+  <view class="card-group list-group">
+    <view class="setting-item row border-bottom" bindtap="backupData">
+      <view class="item-left">
+        <view class="item-title"><text class="item-icon">📥</text> 备份数据</view>
+        <view class="item-desc">用于数据迁移等场景</view>
+      </view>
+      <view class="arrow">></view>
+    </view>
+    <view class="setting-item row border-bottom" bindtap="restoreData">
+      <view class="item-left">
+        <view class="item-title"><text class="item-icon">📤</text> 恢复数据</view>
+        <view class="item-desc">从 JSON 文件导入</view>
+      </view>
+      <view class="arrow">></view>
+    </view>
+    <view class="setting-item row" bindtap="clearData">
+      <view class="item-left">
+        <view class="item-title text-danger"><text class="item-icon">🗑️</text> 清空所有数据</view>
+        <view class="item-desc">慎重操作</view>
+      </view>
+      <view class="arrow">></view>
+    </view>
+  </view>
+</view>

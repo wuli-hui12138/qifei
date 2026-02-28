@@ -1,0 +1,215 @@
+.container {
+  padding: 40rpx 20rpx; /* Reduced side padding (top/bottom:40, left/right:20) */
+  background-color: #f7f9fc;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-top: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.date-text {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.greeting-title {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: #222;
+}
+
+.main-card {
+  background: linear-gradient(135deg, #a4c8fb, #5bb3f5);
+  border-radius: 36rpx;
+  padding: 50rpx 40rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10rpx 30rpx rgba(91, 179, 245, 0.3);
+  margin-bottom: 50rpx;
+}
+
+.card-icon {
+  width: 90rpx;
+  height: 90rpx;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30rpx;
+}
+
+.card-title {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 8rpx;
+}
+
+.card-subtitle {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.content-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.left-col {
+  width: 45%; 
+  display: flex;
+  justify-content: center;
+}
+
+.right-col {
+  width: 52%; 
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24rpx;
+  margin-top: 0;
+}
+
+.stat-box {
+  background-color: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.02);
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 12rpx;
+}
+
+.stat-value {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.stat-value .number {
+  font-size: 46rpx;
+  font-weight: bold;
+}
+
+.text-bold {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.tip-card {
+  background-color: #e8f5e9;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  flex-grow: 1;
+}
+
+.tip-title {
+  font-size: 26rpx;
+  color: #4caf50;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+}
+
+.tip-content {
+  font-size: 26rpx;
+  color: #2e7d32;
+  line-height: 1.5;
+}
+
+/* Redesigned Slider Styles */
+.slider-wrapper {
+  width: 100%;
+  height: 100%;
+  padding: 10rpx 0;
+  box-sizing: border-box;
+}
+
+.slider-track {
+  width: 140rpx; /* Much wider track replacing the thin one */
+  height: 100%;
+  min-height: 600rpx;
+  background-color: #f0f4ff; /* cohesive light blue background */
+  border-radius: 70rpx; /* fully rounded pill shape */
+  margin: 0 auto;
+  position: relative;
+  /* Removed overflow: hidden; so the thumb can overflow the track bounds */
+  box-shadow: inset 0 6rpx 12rpx rgba(18, 150, 219, 0.08); /* soft inner shadow */
+}
+
+.slider-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 70rpx;
+  /* Removed 'height' transition to fix the drag lag */
+  transition: background-color 0.3s ease;
+}
+
+.slider-thumb {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  width: 140rpx; /* Matches track width exactly for a flush capsule look */
+  height: 140rpx; /* Perfectly round proportional to width */
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.1); /* shadow pointing up to define depth as it pushes */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  z-index: 2;
+  border: 6rpx solid #fff; /* matching border color via inline style in JS */
+  box-sizing: border-box;
+}
+
+.slider-hint-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.slider-hint-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border-left: 4rpx solid #aaa;
+  border-top: 4rpx solid #aaa;
+  transform: rotate(45deg);
+  margin-bottom: 20rpx;
+  animation: pulse 1.5s infinite;
+}
+
+.slider-hint-text {
+  color: #999;
+  font-size: 24rpx;
+  writing-mode: vertical-rl;
+  letter-spacing: 8rpx;
+}
+
+@keyframes pulse {
+  0% { transform: translateY(0) rotate(45deg); opacity: 0.5; }
+  50% { transform: translateY(-10rpx) rotate(45deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(45deg); opacity: 0.5; }
+}

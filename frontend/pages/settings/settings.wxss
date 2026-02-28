@@ -1,0 +1,91 @@
+.container {
+  padding: 40rpx;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #1296DB;
+  margin-bottom: 20rpx;
+  margin-top: 40rpx;
+  padding-left: 10rpx;
+}
+
+.card-group {
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.02);
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.list-group {
+  padding: 0;
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-item.list-group > .setting-item {
+  padding: 30rpx;
+}
+
+.setting-item.row {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+}
+
+.border-bottom {
+  border-bottom: 2rpx solid #f5f5f5;
+}
+
+.item-header {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+}
+
+.item-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.text-danger {
+  color: #ff6b6b;
+}
+
+.item-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+  padding-left: 48rpx;
+}
+
+.item-icon {
+  margin-right: 12rpx;
+  font-size: 32rpx;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 36rpx;
+}
+
+slider {
+  margin: 20rpx 0;
+}
