@@ -35,7 +35,6 @@
       </view>
     </view>
 
-    <!-- Right Column: Stats and Tips mapped to 48% Space -->
     <view class="right-col">
       <view class="section-title">本周概览</view>
       <view class="stat-box">
@@ -50,6 +49,15 @@
         <view class="tip-title">💡 健康小贴士</view>
         <view class="tip-content">{{healthTip}}</view>
       </view>
+    </view>
+  </view>
+
+  <!-- Auth Modal Overlay -->
+  <view class="auth-modal" wx:if="{{showAuthModal}}">
+    <view class="auth-modal-content">
+      <view class="auth-title">欢迎使用机长日记</view>
+      <view class="auth-desc">为了给您提供更好的服务与统计数据，我们需要您设置头像和昵称作为您的身份标识。</view>
+      <button class="auth-btn" bindtap="goToSettings" type="primary">去设置</button>
     </view>
   </view>
 </view>

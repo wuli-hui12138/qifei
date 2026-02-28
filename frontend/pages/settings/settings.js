@@ -1,81 +1,73 @@
+const app = getApp()
+
 Page({
   data: {
-    age: 25,
-    appLock: false
+    userInfo: {
+      avatar: '',
+      nickname: '',
+      region: '',
+      age: ''
+    }
   },
 
   onLoad() {
     this.setData({
-      age: wx.getStorageSync('userAge') || 25,
-      appLock: wx.getStorageSync('appLock') || false
+      userInfo: app.globalData.userInfo || { avatar: '', nickname: '', region: '', age: '' }
     })
+  },
+
+  onChooseAvatar(e) {
+    const { avatarUrl } = e.detail;
+    this.setData({
+      'userInfo.avatar': avatarUrl
+    });
+  },
+
+  onNicknameInput(e) {
+    const nickname = e.detail.value;
+    this.setData({
+      'userInfo.nickname': nickname
+    });
+  },
+
+  onRegionInput(e) {
+    const region = e.detail.value;
+    this.setData({
+      'userInfo.region': region
+    });
   },
 
   onAgeChange(e) {
     const age = e.detail.value;
-    this.setData({ age });
-    wx.setStorageSync('userAge', age);
+    this.setData({
+      'userInfo.age': age
+    });
   },
 
-  onAppLockChange(e) {
-    const appLock = e.detail.value;
-
-    if (appLock) {
-      wx.checkIsSupportSoterAuthentication({
-        success: (res) => {
-          if (res.supportMode && res.supportMode.length > 0) {
-            wx.startSoterAuthentication({
-              requestAuthModes: res.supportMode,
-              challenge: '开启应用锁',
-              authContent: '请验证生物认证信息',
-              success: () => {
-                this.setData({ appLock: true });
-                wx.setStorageSync('appLock', true);
-              },
-              fail: () => {
-                this.setData({ appLock: false });
-                wx.showToast({ title: '认证失败', icon: 'none' });
-              }
-            });
-          } else {
-            this.setSimpleLock(true);
-          }
-        },
-        fail: () => {
-          this.setSimpleLock(true);
-        }
-      })
-    } else {
-      this.setData({ appLock: false });
-      wx.setStorageSync('appLock', false);
+  saveUserInfo() {
+    if (!app.globalData.userInfo || !app.globalData.userInfo.id) {
+      wx.showToast({ title: '未登录', icon: 'none' });
+      return;
     }
-  },
 
-  setSimpleLock(val) {
-    this.setData({ appLock: val });
-    wx.setStorageSync('appLock', val);
-    wx.showToast({ title: '已开启基本密码锁', icon: 'none' });
-  },
-
-  backupData() {
-    wx.showToast({ title: '数据已备份', icon: 'success' });
-  },
-
-  restoreData() {
-    wx.showToast({ title: '数据恢复成功', icon: 'success' });
-  },
-
-  clearData() {
-    wx.showModal({
-      title: '警告',
-      content: '确定要清空所有记录吗？此操作不可逆！',
+    wx.showLoading({ title: '保存中' });
+    wx.request({
+      url: `${app.globalData.backendUrl}/users/${app.globalData.userInfo.id}`,
+      method: 'PUT',
+      data: this.data.userInfo,
       success: (res) => {
-        if (res.confirm) {
-          wx.clearStorageSync();
-          this.onLoad();
-          wx.showToast({ title: '已清空', icon: 'success' });
+        wx.hideLoading();
+        if (res.statusCode === 200) {
+          app.globalData.userInfo = res.data;
+          wx.showToast({ title: '保存成功', icon: 'success' });
+        } else {
+          wx.showToast({ title: '保存失败', icon: 'error' });
         }
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.showToast({ title: '网络错误', icon: 'error' });
       }
-    })
+    });
   }
 })

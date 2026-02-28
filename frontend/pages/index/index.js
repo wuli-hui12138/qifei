@@ -16,16 +16,26 @@ Page({
     sliderColor: '#4caf50',
     sliderHeight: 0,
     sliderTop: 0,
-    isModalShowing: false
+    isModalShowing: false,
+
+    showAuthModal: false
   },
 
   onLoad() {
     this.initDate();
-    this.fetchData();
+    if (app.globalData.userInfo) {
+      this.checkAuthAndFetchData();
+    } else {
+      app.userInfoReadyCallback = res => {
+        this.checkAuthAndFetchData();
+      };
+    }
   },
 
   onShow() {
-    this.fetchData();
+    if (app.globalData.userInfo) {
+      this.checkAuthAndFetchData();
+    }
   },
 
   onReady() {
@@ -52,38 +62,75 @@ Page({
     })
   },
 
-  fetchData() {
-    let todayCount = wx.getStorageSync('todayCount') || 0;
-    let weekCount = wx.getStorageSync('weekCount') || 0;
-
-    let currentStatus = '贤者模式';
-    let currentStatusColor = '#333';
-    let healthTip = '今天已经起飞啦，心情不错吧~ ✨';
-
-    if (todayCount === 0) {
-      currentStatus = '随时待命';
-      healthTip = '今天还没行动哦，蓄力中~';
-      currentStatusColor = '#4caf50';
-    } else if (todayCount > 2) {
-      currentStatus = '注意节制';
-      healthTip = '一定要注意身体健康，多喝热水！';
-      currentStatusColor = '#f44336';
+  checkAuthAndFetchData() {
+    const info = app.globalData.userInfo;
+    if (!info.nickname || !info.avatar) {
+      this.setData({ showAuthModal: true });
+    } else {
+      this.setData({ showAuthModal: false });
+      this.fetchData();
     }
+  },
 
-    this.setData({
-      todayCount,
-      weekCount,
-      currentStatus,
-      currentStatusColor,
-      healthTip
-    })
+  goToSettings() {
+    wx.switchTab({
+      url: '/pages/settings/settings'
+    });
+  },
+
+  fetchData() {
+    if (!app.globalData.userInfo) return;
+    const userId = app.globalData.userInfo.id;
+
+    wx.request({
+      url: `${app.globalData.backendUrl}/users/${userId}/records/stats?view_type=week`,
+      method: 'GET',
+      success: (res) => {
+        if (res.statusCode === 200) {
+          const stats = res.data;
+          let weekCount = 0;
+          let todayCount = 0;
+
+          const todayStr = new Date().toISOString().split('T')[0];
+
+          stats.forEach(item => {
+            weekCount += item.count;
+            if (item.date === todayStr) {
+              todayCount = item.count;
+            }
+          });
+
+          let currentStatus = '贤者模式';
+          let currentStatusColor = '#333';
+          let healthTip = '今天已经起飞啦，心情不错吧~ ✨';
+
+          if (todayCount === 0) {
+            currentStatus = '随时待命';
+            healthTip = '今天还没行动哦，蓄力中~';
+            currentStatusColor = '#4caf50';
+          } else if (todayCount > 2) {
+            currentStatus = '注意节制';
+            healthTip = '一定要注意身体健康，多喝热水！';
+            currentStatusColor = '#f44336';
+          }
+
+          this.setData({
+            todayCount,
+            weekCount,
+            currentStatus,
+            currentStatusColor,
+            healthTip
+          });
+        }
+      }
+    });
   },
 
   initSlider() {
     const query = wx.createSelectorQuery()
     query.select('#v-slider').boundingClientRect()
     query.exec((res) => {
-      if (res[0]) {
+      if (res && res[0]) {
         this.setData({
           sliderHeight: res[0].height,
           sliderTop: res[0].top
@@ -117,12 +164,12 @@ Page({
   },
 
   handleTouchStart(e) {
-    if (this.data.isModalShowing) return;
+    if (this.data.isModalShowing || this.data.showAuthModal) return;
     this.updateSlider(e.touches[0].clientY);
   },
 
   handleTouchMove(e) {
-    if (this.data.isModalShowing) return;
+    if (this.data.isModalShowing || this.data.showAuthModal) return;
     let percentage = this.updateSlider(e.touches[0].clientY);
 
     if (percentage === 100 && !this.data.isModalShowing) {
@@ -133,7 +180,6 @@ Page({
 
   handleTouchEnd(e) {
     if (!this.data.isModalShowing) {
-      // Revert back
       this.resetSlider();
     }
   },
@@ -147,15 +193,16 @@ Page({
   },
 
   triggerTakeoff() {
-    wx.vibrateShort && wx.vibrateShort({ type: 'heavy' }); // Optional haptic feedback
+    wx.vibrateShort && wx.vibrateShort({ type: 'heavy' });
     wx.showModal({
       title: '确认起飞',
       content: '状态满格，确定要记录一次吗？',
       success: (res) => {
         if (res.confirm) {
           this.doRecord()
+        } else {
+          this.resetSlider();
         }
-        this.resetSlider();
       },
       fail: () => {
         this.resetSlider();
@@ -164,14 +211,35 @@ Page({
   },
 
   doRecord() {
-    let todayCount = this.data.todayCount + 1
-    let weekCount = this.data.weekCount + 1
-    wx.setStorageSync('todayCount', todayCount)
-    wx.setStorageSync('weekCount', weekCount)
-    this.fetchData()
-    wx.showToast({
-      title: '记录成功',
-      icon: 'success'
-    })
+    if (!app.globalData.userInfo) {
+      this.resetSlider();
+      return;
+    }
+    const userId = app.globalData.userInfo.id;
+
+    wx.showLoading({ title: '记录中' });
+    wx.request({
+      url: `${app.globalData.backendUrl}/users/${userId}/records`,
+      method: 'POST',
+      data: {
+        status_note: ''
+      },
+      success: (res) => {
+        wx.hideLoading();
+        if (res.statusCode === 200) {
+          wx.showToast({ title: '记录成功', icon: 'success' });
+          this.fetchData(); // Refresh stats
+        } else {
+          wx.showToast({ title: '记录失败', icon: 'error' });
+        }
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.showToast({ title: '网络错误', icon: 'error' });
+      },
+      complete: () => {
+        this.resetSlider();
+      }
+    });
   }
 })

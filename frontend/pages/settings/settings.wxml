@@ -1,47 +1,38 @@
-<view class="container">
-  <view class="section-title">个人信息</view>
+﻿<view class=" container\>
+  <view class="section-title">鐢ㄦ埛淇℃伅</view>
   <view class="card-group">
+    <!-- Avatar -->
+    <view class="setting-item row border-bottom">
+      <view class="item-header" style="margin-bottom: 0;">澶村儚</view>
+      <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{userInfo.avatar || 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'}}"></image>
+      </button>
+    </view>
+
+    <!-- Nickname -->
+    <view class="setting-item row border-bottom">
+      <view class="item-header" style="margin-bottom: 0;">鏄电О</view>
+      <input type="nickname" class="nickname-input" placeholder="璇疯緭鍏ユ樀绉? value="{{userInfo.nickname}}" maxlength="12" bindblur="onNicknameInput"/>
+    </view>
+
+    <!-- Region -->
+    <view class="setting-item row border-bottom">
+      <view class="item-header" style="margin-bottom: 0;">鍦板尯</view>
+      <input class="region-input" placeholder="璇疯緭鍏ュ湴鍖? value="{{userInfo.region}}" bindinput="onRegionInput"/>
+    </view>
+
+    <!-- Age -->
     <view class="setting-item">
       <view class="item-header">
-        <text class="item-icon">👦🏻</text> 年龄：{{age}} 岁
+        <text class="item-icon">馃懄馃徎</text> 骞撮緞锛歿{userInfo.age || '-'}} 宀?
       </view>
-      <slider value="{{age}}" min="12" max="100" show-value="true" activeColor="#6ab0fe" bindchange="onAgeChange"/>
+      <slider value="{{userInfo.age || 25}}" min="12" max="100" show-value="true" activeColor="#6ab0fe" bindchange="onAgeChange"/>
     </view>
   </view>
 
-  <view class="section-title">安全与隐私</view>
-  <view class="card-group">
-    <view class="setting-item row">
-      <view class="item-left">
-        <view class="item-title"><text class="item-icon">🔒</text> 应用锁</view>
-        <view class="item-desc">保护你的隐私记录</view>
-      </view>
-      <switch checked="{{appLock}}" color="#6ab0fe" bindchange="onAppLockChange"/>
-    </view>
+  <view class="save-btn-container">
+    <button class="save-btn" bindtap="saveUserInfo">淇濆瓨淇敼</button>
   </view>
 
-  <view class="section-title">数据管理</view>
-  <view class="card-group list-group">
-    <view class="setting-item row border-bottom" bindtap="backupData">
-      <view class="item-left">
-        <view class="item-title"><text class="item-icon">📥</text> 备份数据</view>
-        <view class="item-desc">用于数据迁移等场景</view>
-      </view>
-      <view class="arrow">></view>
-    </view>
-    <view class="setting-item row border-bottom" bindtap="restoreData">
-      <view class="item-left">
-        <view class="item-title"><text class="item-icon">📤</text> 恢复数据</view>
-        <view class="item-desc">从 JSON 文件导入</view>
-      </view>
-      <view class="arrow">></view>
-    </view>
-    <view class="setting-item row" bindtap="clearData">
-      <view class="item-left">
-        <view class="item-title text-danger"><text class="item-icon">🗑️</text> 清空所有数据</view>
-        <view class="item-desc">慎重操作</view>
-      </view>
-      <view class="arrow">></view>
-    </view>
-  </view>
+  <!-- Removed Security & Privacy and Data Management sections -->
 </view>
