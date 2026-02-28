@@ -1,9 +1,9 @@
-﻿<view class=" container\>
-  <view class="section-title">鐢ㄦ埛淇℃伅</view>
+﻿<view class="container">
+  <view class="section-title">用户信息</view>
   <view class="card-group">
     <!-- Avatar -->
     <view class="setting-item row border-bottom">
-      <view class="item-header" style="margin-bottom: 0;">澶村儚</view>
+      <view class="item-header" style="margin-bottom: 0;">头像</view>
       <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
         <image class="avatar" src="{{userInfo.avatar || 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'}}"></image>
       </button>
@@ -11,27 +11,27 @@
 
     <!-- Nickname -->
     <view class="setting-item row border-bottom">
-      <view class="item-header" style="margin-bottom: 0;">鏄电О</view>
-      <input type="nickname" class="nickname-input" placeholder="璇疯緭鍏ユ樀绉? value="{{userInfo.nickname}}" maxlength="12" bindblur="onNicknameInput"/>
+      <view class="item-header" style="margin-bottom: 0;">昵称</view>
+      <input type="nickname" class="nickname-input" placeholder="请输入昵称" value="{{userInfo.nickname}}" maxlength="12" bindblur="onNicknameInput"/>
     </view>
 
     <!-- Region -->
     <view class="setting-item row border-bottom">
-      <view class="item-header" style="margin-bottom: 0;">鍦板尯</view>
-      <input class="region-input" placeholder="璇疯緭鍏ュ湴鍖? value="{{userInfo.region}}" bindinput="onRegionInput"/>
+      <view class="item-header" style="margin-bottom: 0;">地区</view>
+      <input class="region-input" placeholder="请输入地区" value="{{userInfo.region}}" bindinput="onRegionInput"/>
     </view>
 
     <!-- Age -->
     <view class="setting-item">
       <view class="item-header">
-        <text class="item-icon">馃懄馃徎</text> 骞撮緞锛歿{userInfo.age || '-'}} 宀?
+        <text class="item-icon">🧑🏻</text> 年龄：{{userInfo.age || '-'}} 岁
       </view>
       <slider value="{{userInfo.age || 25}}" min="12" max="100" show-value="true" activeColor="#6ab0fe" bindchange="onAgeChange"/>
     </view>
   </view>
 
   <view class="save-btn-container">
-    <button class="save-btn" bindtap="saveUserInfo">淇濆瓨淇敼</button>
+    <button class="save-btn" bindtap="saveUserInfo">保存修改</button>
   </view>
 
   <!-- Removed Security & Privacy and Data Management sections -->
